@@ -85,5 +85,6 @@ module.exports = {
 		'no-prototype-builtins': 0,
 		'function-paren-newline': 0,
 		'no-await-in-loop': 0,
+		'linebreak-style': ['error', 'windows']
 	}
 };
