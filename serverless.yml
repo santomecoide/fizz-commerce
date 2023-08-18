@@ -1,0 +1,66 @@
+service: FizzBurgerChallenge
+
+provider:
+  name: aws
+  runtime: nodejs15.14.0
+  memorySize: 192
+  stage: ${opt:stage, 'local'}
+  region: ${opt:region, 'us-east-1'}
+  endpointType: REGIONAL
+  apiName: FizzBurgerChallenge API
+
+custom:
+  serverless-offline:
+    port: 4000
+    printOutput: true
+    cacheInvalidationRegex: 'node_modules/'
+
+functions:
+  getProductById:
+    handler: src/views/productServerless.getProductById
+    events:
+      - http:
+          integration: lambda-proxy
+          method: get
+          cors:
+            origin: '*'
+          path: /api/product/{uuid}
+  getProductList:
+    handler: src/views/productServerless.getProductList
+    events:
+      - http:
+          integration: lambda-proxy
+          method: get
+          cors:
+            origin: '*'
+          path: /api/product
+  createProduct:
+    handler: src/views/productServerless.createProduct
+    events:
+      - http:
+          integration: lambda-proxy
+          method: post
+          cors:
+            origin: '*'
+          path: /api/product
+  updateProduct:
+    handler: src/views/productServerless.updateProduct
+    events:
+      - http:
+          integration: lambda-proxy
+          method: put
+          cors:
+            origin: '*'
+          path: /api/product/{uuid}
+  deleteProduct:
+    handler: src/views/productServerless.deleteProduct
+    events:
+      - http:
+          integration: lambda-proxy
+          method: delete
+          cors:
+            origin: '*'
+          path: /api/product/{uuid}
+
+plugins:
+  - serverless-offline
